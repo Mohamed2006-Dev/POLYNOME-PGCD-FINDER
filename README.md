@@ -49,7 +49,7 @@ VERSION 2/
 │   ├── ExtraMethods.py        # Utility methods
 │   └── parser.py              # Input extraction and validation
 ├── Start.py                   # App launcher
-
+```
 🚀 How to Run
 
 1. Install Python (version must support tkinter and customtkinter modules).
