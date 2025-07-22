@@ -91,6 +91,7 @@ All icons used in this project are provided by [Flaticon](https://www.flaticon.c
 ## License
 
 This project is free to use with **no restrictions**
+
 note that this can be change in the futur
 
 ## 💡 Future Improvements
