@@ -84,7 +84,7 @@ Images and icons managed dynamically via assets.py
 
 (Soon)
 
-## Icons Source
+## Credits
 
 All icons used in this project are provided by [Flaticon](https://www.flaticon.com)
 
