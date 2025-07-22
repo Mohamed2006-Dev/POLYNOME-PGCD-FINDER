@@ -1,4 +1,4 @@
-#PGCD Finder 🧮
+## PGCD Finder 🧮
 
 A graphical Python application to calculate the Greatest Common Divisor (PGCD) of two polynomials using a custom Tkinter-based interface.
 
@@ -50,7 +50,7 @@ VERSION 2/
 │   └── parser.py              # Input extraction and validation
 ├── Start.py                   # App launcher
 ```
-🚀 How to Run
+## 🚀 How to Run
 
 1. Install Python (version must support tkinter and customtkinter modules).
 
@@ -68,7 +68,7 @@ python Start.py
 
 No external compilation is required. Just run the script and the GUI will appear.
 
-🎨 Features
+## 🎨 Features
 
 Modular frame-based GUI
 
@@ -85,7 +85,7 @@ Images and icons managed dynamically via assets.py
 
 (You may want to insert images here from your res/ folder to showcase the GUI.)
 
-💡 Future Improvements
+## 💡 Future Improvements
 
 Add support for polynomial plotting
 
@@ -94,6 +94,6 @@ Export results to PDF or LaTeX
 Enhance accessibility and localization
 
 
-🧑‍💻 Author
+## 🧑‍💻 Author
 
 Developed by a passionate programmer with a focus on clean code architecture and advanced mathematics.
