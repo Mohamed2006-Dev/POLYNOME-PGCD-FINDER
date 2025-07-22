@@ -1,4 +1,4 @@
-#PGCD Finder 🧮
+##PGCD Finder 🧮
 
 A graphical Python application to calculate the Greatest Common Divisor (PGCD) of two polynomials using a custom Tkinter-based interface.
 
