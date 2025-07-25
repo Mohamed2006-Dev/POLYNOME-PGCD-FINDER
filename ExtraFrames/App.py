@@ -9,4 +9,6 @@ class App(ctk.CTk):
         super().__init__()
         self.title(title)
         self.after(100, lambda: self.state('zoomed'))
+        self.maxsize(800, 900)
+        self.minsize(600, 850)
         

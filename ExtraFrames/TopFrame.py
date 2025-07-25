@@ -13,8 +13,8 @@ class TopFrame(ctk.CTkFrame):
         self.__configure_column(3)
     
     def Show(self):
-        for ind,widget in enumerate(self.winfo_children()):
-            widget.grid(row=0, column=ind, pady=10)
+        for (ind,widget), s in zip(enumerate(self.winfo_children()), ['nw', 'n', 'ne']):
+            widget.grid(row=0, column=ind, pady=10, sticky=s, padx=10)
         self.pack(fill='x', padx=10, pady=10)
 
     def __configure_column(self, n:int)->None:
@@ -25,3 +25,6 @@ class TopFrame(ctk.CTkFrame):
     def set_icons(self, icon1, icon2):
         self.__icon1_label.configure(image=icon1)
         self.__icon2_label.configure(image=icon2)
+
+    def get_title(self):
+        return self.__Title

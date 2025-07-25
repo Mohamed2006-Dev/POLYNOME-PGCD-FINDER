@@ -5,11 +5,11 @@ class FooterFrame(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         
-        self.__tipsbutton=ctk.CTkButton(self, text='tips', compound='left', fg_color='transparent', width = 50, height = 50, font = ("Arial", 35))
+        self.__tipsbutton=ctk.CTkButton(self, text='TIPS', width = 50, height = 50, font = ("Arial", 35))
 
-        self.__techbutton=ctk.CTkButton(self, text = '', compound= 'top', width = 50, height = 50, fg_color= 'transparent', font = ("Arial", 35))
-
-        self.__examplebutton=ctk.CTkButton(self, text= "Exemple", width = 50, height = 50, compound='right', fg_color='transparent', font = ("Arial", 35))
+        self.__techbutton=ctk.CTkButton(self, text = 'keyboard', width = 50, height = 50, font = ("Arial", 35))
+        
+        self.__examplebutton=ctk.CTkButton(self, text= "EXAMPLE", width = 50, height = 50, font = ("Arial", 35))
 
         self.column_config()
 
@@ -35,6 +35,10 @@ class FooterFrame(ctk.CTkFrame):
         self.__tipsbutton.configure(command=command)
 
     def set_icons(self, tipsicon, keyboardicon, exampleicon):
-        self.__tipsbutton.configure(image=tipsicon)
-        self.__techbutton.configure(image=keyboardicon)
-        self.__examplebutton.configure(image=exampleicon)
+        self.__tipsbutton.configure(image=tipsicon, compound='left')
+        self.__techbutton.configure(image=keyboardicon, text='', compound='top')
+        self.__examplebutton.configure(image=exampleicon, compound='right')
+
+    def get_buttons(self):
+        return [self.__techbutton, self.__examplebutton, self.__tipsbutton]
+    

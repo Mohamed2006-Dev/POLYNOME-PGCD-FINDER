@@ -27,10 +27,14 @@ def keyboard_touche(text, entry):
     entry.insert(entry.index('insert'), text)
 
 def clear_btns(entry,type=None):
+    tk_entry, str_var, prefix=entry
     if type=='clear all':
-        entry.delete(0, ctk.END)
+        tk_entry.delete(0, ctk.END)
+        validate_entry(tk_entry, str_var, prefix)
         return
-    entry.delete(entry.index('insert')-1, entry.index('insert'))
+    tk_entry.delete(tk_entry.index('insert')-1, tk_entry.index('insert'))
+    validate_entry(tk_entry, str_var, prefix)
+
     
 def keyboard_show_hide(keyboard_state, keyboardframe):
     if not keyboard_state:

@@ -1,25 +1,23 @@
 import customtkinter as ctk
 from PIL import Image
-from utils.ExtraMethods import ExtraMethods as E
 from utils.parser import validate_entry
 
 class EntryFrame(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         self.__str_var_1=ctk.StringVar()
-        self.__entry1=ctk.CTkEntry(self, width=200, height=40, textvariable=self.__str_var_1, font=("Arial", 20), text_color=("#0303BD", '#30AEE5'))
+        self.__entry1=ctk.CTkEntry(self, textvariable=self.__str_var_1, font=("Arial", 20))
 
-        self.__image=Image.open("res\\diviser.png")
-        self.__tk_image=ctk.CTkImage(self.__image, self.__image, (30, 30))
-        self.__pgcd_finder_button = ctk.CTkButton(self, text='', font=("Arial", 25), image=self.__tk_image, command=None, compound='top', fg_color='transparent')
+        self.__pgcd_finder_button = ctk.CTkButton(self, text='Button', font=("Arial", 25), command=None)
         self.__entry1.bind("<KeyRelease>", lambda x: validate_entry(self.__entry1, self.__str_var_1, "A(X)"))
         self.__entry1.bind("<FocusIn>", lambda x: self.setfocus(self.__entry1))
 
         self.__str_var_2=ctk.StringVar()
-        self.__entry2=ctk.CTkEntry(self, width=200, height=40, textvariable=self.__str_var_2, font=("Arial", 20), text_color=("#0303BD", '#30AEE5'))
+        self.__entry2=ctk.CTkEntry(self, textvariable=self.__str_var_2, font=("Arial", 20))
         self.__entry2.bind("<KeyRelease>", lambda x: validate_entry(self.__entry2, self.__str_var_2, "B(X)"))
         self.__entry2.bind("<FocusIn>", lambda x: self.setfocus(self.__entry2))
-        self.currentfocus=self.__entry1
+        self.currentfocus=None
+        self.__entry1.focus_force()
         self.__configure_column(3)
         
 
@@ -51,7 +49,20 @@ class EntryFrame(ctk.CTkFrame):
         validate_entry(self.__entry2, self.__str_var_2, "B(X)")
 
     def setfocus(self, entry, event=None):
-        self.currentfocus=entry
+        self.currentfocus=self.getentrytuple(entry)
 
     def getfocus(self):
         return self.currentfocus
+    
+    def getentrytuple(self, entry):
+        match (entry):
+            case self.__entry1:
+                return (self.__entry1, self.__str_var_1, "A(X)")
+            case self.__entry2:
+                return (self.__entry2, self.__str_var_2, "B(X)")
+            
+    def set_icon(self, icon):
+        self.__pgcd_finder_button.configure(image=icon, compound='top', text='')
+
+    def get_button(self):
+        return self.__pgcd_finder_button

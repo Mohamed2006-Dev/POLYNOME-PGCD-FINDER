@@ -32,8 +32,7 @@ class ExtraMethods:
         for key in btns.keys():
             btn, row, col=btns[key]
             btn.configure(height = 50, font = ("Arial", 25))
-            btn.grid(row=row, column=col, sticky=sticky, rowspan=rowspan)
-
+            btn.grid(row=row, column=col, sticky=sticky, rowspan=rowspan, padx=1, pady=1)
 if __name__=='__main__':
     print(ExtraMethods.replace_exponents("X**3"))
     print(ExtraMethods.sympy_format("X²"))

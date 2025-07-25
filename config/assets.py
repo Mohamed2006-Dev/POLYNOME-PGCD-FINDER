@@ -17,6 +17,7 @@ class Assets:
         cls.images['request']=Image.open(r'res\request.png')
         cls.images['technology']=Image.open(r'res\technology.png')
         cls.images['user-guide']=Image.open(r'res\user-guide.png')
+        cls.images['settings']=Image.open(r'res\settings.png')
 
     @classmethod
     def convert(cls, path:tuple[str]|str, size:tuple[int]):
