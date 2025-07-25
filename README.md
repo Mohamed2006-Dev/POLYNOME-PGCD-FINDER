@@ -33,9 +33,9 @@ VERSION 2/
 ├── Exceptions/
 │   └── Expression.py          # Custom exception handling
 ├── theme/
-|   ├── font.py      #ctk fonts classes
-|   ├── color.py     #row hexa values of colors
-|   └── style.py     #row values of fonts
+|   ├── font.py      # Ctk fonts classes
+|   ├── color.py     # Row hexa values of colors
+|   └── style.py     # Row values of fonts
 ├── ExtraFrames/
 │   ├── App.py
 │   ├── EntryFrame.py
