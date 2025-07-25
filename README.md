@@ -96,15 +96,13 @@ All icons used in this project are provided by [Flaticon](https://www.flaticon.c
 
 This project is free to use with **no restrictions**
 
-note that this can be change in the futur
+Note: This may change in the future.
 
 ## 📢 Update Announcement
 
-1- Adding custom theme to the application
-
-2- Handling the keys of the keyboard
-
-3- Resizing the widgets and texts of the window
+- 🎨 Introduced a custom dark theme for all frames and buttons.
+- ⌨️ Enhanced virtual keyboard functionality with hover effects and border frames.
+- 📐 Resized widgets for better visual alignment and responsiveness.
 
 ## 💡 Future Improvements
 
