@@ -32,6 +32,10 @@ VERSION 2/
 ├── assets.py                 # Assets management
 ├── Exceptions/
 │   └── Expression.py          # Custom exception handling
+├── theme/
+|   ├── font.py      #ctk fonts classes
+|   ├── color.py     #row hexa values of colors
+|   └── style.py     #row values of fonts
 ├── ExtraFrames/
 │   ├── App.py
 │   ├── EntryFrame.py
@@ -84,15 +88,23 @@ Images and icons managed dynamically via assets.py
 
 (Soon)
 
-## Credits
+## 💳 Credits
 
 All icons used in this project are provided by [Flaticon](https://www.flaticon.com)
 
-## License
+## ©️ License
 
 This project is free to use with **no restrictions**
 
 note that this can be change in the futur
+
+## 📢 Update Announcement
+
+1- Adding custom theme to the application
+
+2- Handling the keys of the keyboard
+
+3- Resizing the widgets and texts of the window
 
 ## 💡 Future Improvements
 
