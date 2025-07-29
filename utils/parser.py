@@ -1,37 +1,77 @@
+"""
+parser.py
+
+This module provides functions for validating and formatting polynomial input in the PGCD Finder application.
+It ensures user input is cleaned, formatted, and compatible with sympy polynomial operations.
+"""
+
 import customtkinter as ctk
+import re
 from utils.ExtraMethods import ExtraMethods as E
 
-def validate_entry(entry: ctk.CTkEntry, string_var: ctk.StringVar, prefix: str, event=None)->None:
-    current_text = string_var.get()
-    if 'x' in string_var.get():
-        string_var.set(current_text.replace('x', 'X'))
-    
-    current_text=E.replace_exponents(string_var.get())
-    string_var.set(current_text)
+def validate_entry(entry_tuple: list[ctk.CTkEntry | ctk.StringVar | str], user_input_ref: list[str], event=None) -> None:
+    """
+    Validate and format the entry field for polynomial input.
+    Updates the user_input_ref list with the cleaned input.
 
-    if '=' in string_var.get():
-        index = string_var.get().index('=')
-        user_input = current_text[index + 1:]
-    else:
-        if prefix in string_var.get():
-            user_input = string_var.get().replace(f'{prefix}', "")
+    Args:
+        entry_tuple (list): [entry widget, string variable, prefix string]
+        user_input_ref (list): Reference to user input list to update.
+        event: Optional event parameter (unused).
+    """
+    entry, string_var, prefix = entry_tuple
+    current_value = string_var.get()
+
+    # If the prefix is missing, validate the whole input
+    if not current_value.startswith(f'{prefix} ='):
+        if current_value.find(prefix.replace(')',''))==-1:
+            cleaned_input = validate_user_input(current_value)
         else:
-            user_input = string_var.get()
+            cleaned_input=validate_user_input(current_value[len(prefix):])
+    else:
+        cleaned_input = validate_user_input(current_value[current_value.index('=') + 1:])
 
-    if not string_var.get().startswith(f"{prefix} ="):
-        entry.delete(0, ctk.END)
-        replace_with = f"{prefix} =" + user_input
-        entry.insert(0, replace_with)
+    match prefix:
+        case 'A(X)':
+            user_input_ref[0] = cleaned_input
+        case 'B(X)':
+            user_input_ref[1] = cleaned_input
+    string_var.set(f'{prefix} ={cleaned_input}')
 
-    if event:
-        entry.icursor(event.widget.index(ctk.INSERT) + 1)
+    # Restore cursor position
+    entry.icursor(ctk.END)
 
-def extract_polynom(entry: ctk.CTkEntry, string_var: ctk.StringVar, prefix: str)->(str|None):
-    validate_entry(entry, string_var, prefix)
-    
-    index: int=string_var.get().find('=')
-    polynom: str = string_var.get()[index+1:]
-    
-    polynom=E.sympy_format(polynom)
+def validate_user_input(user_input: str) -> str:
+    """
+    Clean and format the user input for a polynomial.
 
-    return polynom
+    - Replaces lowercase x with uppercase X.
+    - Removes invalid characters.
+    - Ensures proper multiplication and exponent formatting.
+
+    Args:
+        user_input (str): Raw user input string.
+
+    Returns:
+        str: Cleaned and formatted polynomial string.
+    """
+    # Replace lowercase x with uppercase X
+    user_input = user_input.replace('x', "X")
+    # Remove invalid characters
+    user_input = re.sub(r'[^ X*0-9⁰¹²³⁴⁵⁶⁷⁸⁹+\-/]', '', user_input)
+    # Remove repeated X
+    user_input = re.sub(r'X{2,}', 'X', user_input)
+    # Insert multiplication sign between coefficient and X
+    def repl(match):
+        coef = match.group(1)
+        return f'{coef}*X'
+    user_input = re.sub(r'(\d+)X', repl, user_input)
+    # Remove misplaced operators and asterisks
+    user_input = re.sub(r'(?<!\*)[+\-\/](?=\*)|\*(?=[+\-\/ ])', '', user_input)
+    user_input = re.sub(r'[+\-\/]{2,}', '', user_input)
+    user_input = re.sub(r'\*{3,}', '**', user_input)
+    user_input = re.sub(r'(?<!X)[\*]{2}', 'X**', user_input)
+    # Convert to Unicode superscript format
+    user_input = E.replace_exponents(user_input)
+    return user_input
+

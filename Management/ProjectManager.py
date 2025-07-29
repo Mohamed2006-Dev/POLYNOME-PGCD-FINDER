@@ -1,120 +1,171 @@
+"""
+ProjectManager module.
+
+This module contains the Controller class, which serves as the main controller for the PGCD Finder application.
+It manages the initialization of UI frames, event binding, result display logic, and application configuration.
+The Controller class coordinates all UI components, handles user input, and applies styles, fonts, and colors.
+"""
+
+# ===================== Imports =====================
 from ExtraFrames.EntryFrame import EntryFrame
+from Exceptions import Expression as Exp
 from ExtraFrames.ResultFrame import ResultFrame
 from ExtraFrames.TopFrame import TopFrame
 from ExtraFrames.FooterFrame import FooterFrame
 from ExtraFrames.KeyboardFrame import KeyboardFrame
 from ExtraFrames.App import App
 from utils.ExtraMethods import ExtraMethods as E
-from utils.parser import extract_polynom, validate_entry
-from utils.Calculator import performe_calculation
-from config.assets import Assets
+from utils.parser import *
+from utils.Calculator import *
 from utils.ButtonsCommands import *
+from config.assets import Assets
 from theme.font import *
 from theme.style import Style
 from theme.color import Color
 
+# ===================== Controller Class =====================
 class Controller:
-    def __init__(self):
+    """
+    Main controller for the PGCD Finder application.
 
-        #====================(window layers)===================
+    Handles UI setup, event binding, result display logic, and applies styles, fonts, and colors.
+    """
+    def __init__(self):
+        # ---------- Window Layers ----------
         self.__App = App()
         self.__EntryFrame = EntryFrame(self.__App)
         self.__ResultFrame = ResultFrame(self.__App)
         self.__TopFrame = TopFrame(self.__App)
-        self.__FooterFrame= FooterFrame(self.__App)
+        self.__FooterFrame = FooterFrame(self.__App)
         self.__KeyboardFrame = KeyboardFrame(self.__App)
         
-        #====================(variables)=================
-        self.__entry1, self.__str1=self.__EntryFrame.getentry(1)
-        self.__entry2, self.__str2=self.__EntryFrame.getentry(2)
-        self.widgets={
+        # ---------- Widget References ----------
+        self.__entry1 = self.__EntryFrame.getentry(1)
+        self.__entry2 = self.__EntryFrame.getentry(2)
+        self.widgets = {
             "titles": [self.__TopFrame.get_title(), self.__ResultFrame.get_title()],
             "result_labels": [self.__ResultFrame.get_q_label(), self.__ResultFrame.get_r_label(), self.__ResultFrame.get_pgcd_label()],
-            "entry_labels": [self.__EntryFrame.getentry(1)[0], self.__EntryFrame.getentry(2)[0]],
+            "entry_labels": [self.__EntryFrame.getentry(1), self.__EntryFrame.getentry(2)],
             "numeric_btns": self.__KeyboardFrame.getnumericbtns(),
-            'non_numeric_keyboard_btns': self.__KeyboardFrame.get_non_numeric_btns(),
-            'footer_btns': self.__FooterFrame.get_buttons(),
-            'entry_btn': self.__EntryFrame.get_button()
+            "non_numeric_keyboard_btns": self.__KeyboardFrame.get_non_numeric_btns(),
+            "footer_btns": self.__FooterFrame.get_buttons(),
+            "entry_btn": self.__EntryFrame.get_button()
         }
 
-        #================(Methods Call)========================
+        # ---------- Initialization Calls ----------
         self.set_buttons_command()
-        validate_entry(self.__entry1, self.__str1, "A(X)")
-        validate_entry(self.__entry2, self.__str2, "B(X)")
         self.apply_images()
         self.load_fonts()
         self.configure_dimensions()
         self.load_colors()
+        # ---------- End Initialization ----------
 
-        
-    def __handle_result(self):
-        p1 = extract_polynom(self.__entry1, self.__str1, "A(X)")
-        p2 = extract_polynom(self.__entry2, self.__str2, "B(X)")
+    # ===================== Calculation & Result =====================
+    def __compute_result(self):
+        """
+        compute the calculation of quotient, remainder, and GCD.
+
+        Returns:
+            tuple: (Q, R, pgcd) or (None, None, None) on error.
+        """
+        p1 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[0])) if self.__EntryFrame.user_input[0] != '' else ''
+        p2 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[1])) if self.__EntryFrame.user_input[1] != '' else ''
 
         if p1 and p2:
-            Q, R, pgcd=performe_calculation(p1, p2)
+            Q, R, pgcd = perform_calculation(p1, p2)
             return Q, R, pgcd
         else:
             return None, None, None
-        
-        
-    def display_result(self):
-        Q, R, pgcd = self.__handle_result()
+
+    def show_result(self):
+        """
+        Show the calculation result in the result frame.
+
+        Raises:
+            ExpressionError: If input is invalid.
+        """
+        Q, R, pgcd = self.__compute_result()
         validation = E.is_none(Q) and E.is_none(R) and E.is_none(pgcd)
         if validation:
             self.__EntryFrame.clear_entries()
+            raise Exp.ExpressionError("Unexpected expression error: Polynomials are not in the correct format")
 
         self.__ResultFrame.config_quotient(Q)
         self.__ResultFrame.config_rest(R)
         self.__ResultFrame.config_pgcd(pgcd)
-
         self.__ResultFrame.Show()
 
-
+    # ===================== UI Setup & Main Loop =====================
     def create(self):
+        """
+        Show all main frames and start the application main loop.
+        """
         self.__TopFrame.Show()
         self.__EntryFrame.Show()
-        self.__FooterFrame.Show(sticky=['sw', 's', 'se'])
+        self.__FooterFrame.Show(sticky=['sw', 's', 's', 'se'])
         self.__App.mainloop()
 
+    # ===================== Button Commands =====================
     def set_buttons_command(self):
-        #=============================(Entry btns)==========================================
-        self.__EntryFrame.pgcd_command(self.display_result)
+        """
+        Bind all button commands for entry, footer, and keyboard.
+        """
+        # Entry button
+        self.__EntryFrame.pgcd_command(self.show_result)
 
-        #=============================(Footer btns)=========================================
-        self.__FooterFrame.set_example_command(lambda: example_button_command(self, [self.__entry1, self.__str1], [self.__entry2, self.__str2]))
+        # Footer buttons
+        self.__FooterFrame.set_example_command(
+            lambda: example_button_command(
+                self,
+                self.__EntryFrame.getentrytuple(self.__entry1),
+                self.__EntryFrame.getentrytuple(self.__entry2),
+                self.get_user_input()
+            )
+        )
         self.__FooterFrame.set_tips_command(lambda: tips_button_command(self.__App))
         self.__FooterFrame.set_keyboard_command(lambda: keyboard_show_hide(self.__KeyboardFrame.getkeyboard_state(), self.__KeyboardFrame))
+        self.__FooterFrame.set_settings_button_command(lambda: settings_button_command(self.__App, Color.FrameColor.SettingsColor.TITLE, SettingsTitleCTkFont()))
         
-        #==============================(Keyboard btns)======================================
-        btns=self.__KeyboardFrame.getbtns('general')
+        # Keyboard buttons
+        btns = self.__KeyboardFrame.getbtns('general')
         for btn in btns:
-            text=btn.cget('text')
-            self.__KeyboardFrame.set_btns_command(btn, lambda t=text: keyboard_touche(t, self.__EntryFrame.getfocus()[0]))
+            text = btn.cget('text')
+            self.__KeyboardFrame.set_btns_command(btn, lambda t=text: keyboard_touche(t, self.__EntryFrame.getfocus(), self.get_user_input()))
 
-        command1=lambda: clear_btns(self.__EntryFrame.getfocus(), 'clear all')
-        command2=lambda: clear_btns(self.__EntryFrame.getfocus())
+        command1 = lambda: clear_btns(self.__EntryFrame.getfocus(), self.get_user_input(), 'clear all')
+        command2 = lambda: clear_btns(self.__EntryFrame.getfocus(), self.get_user_input())
         self.__KeyboardFrame.set_clear_btns_command(command1, command2)
 
-        #==============================(END)===========================================
-
-
+    # ===================== Images & Icons =====================
     def apply_images(self):
+        """
+        Set icons/images for entry, footer, top, and keyboard frames.
+        """
         self.__EntryFrame.set_icon(Assets.convert("diviser", (100, 90)))
-        self.__FooterFrame.set_icons(tipsicon=Assets.convert("request", (50, 50)), keyboardicon=Assets.convert('technology', (50, 50)), exampleicon=Assets.convert('book', (50, 50)))
-        self.__TopFrame.set_icons(Assets.convert('math-book', (50, 50)), Assets.convert('calculating', (50, 50)))
+        self.__FooterFrame.set_icons(
+            tipsicon=Assets.convert("request", (50, 50)),
+            keyboardicon=Assets.convert('technology', (50, 50)),
+            settingsicon=Assets.convert('settings', (50, 50)),
+            exampleicon=Assets.convert('book', (50, 50))
+        )
+        self.__TopFrame.set_icons(
+            Assets.convert('math-book', (50, 50)),
+            Assets.convert('calculating', (50, 50))
+        )
         self.__KeyboardFrame.configure_btns(Assets.convert(("exposant(light)", "exposant"), (30, 30)))
-        
-    def load_fonts(self):
-        #================(Fonts Vars)==================
-        title_font=TitleCTkFont()
-        result_font=ResultCTkFont()
-        entry_font=EntryCTkFont()
 
-        #================(Lables Vars)=================
-        title_widgets=self.widgets['titles']
-        result_widgets=self.widgets['result_labels']
-        entry_widgets=self.widgets['entry_labels']
+    # ===================== Fonts =====================
+    def load_fonts(self):
+        """
+        Apply custom fonts to all relevant widgets.
+        """
+        title_font = TitleCTkFont()
+        result_font = ResultCTkFont()
+        entry_font = EntryCTkFont()
+
+        title_widgets = self.widgets['titles']
+        result_widgets = self.widgets['result_labels']
+        entry_widgets = self.widgets['entry_labels']
 
         for w in title_widgets:
             w.configure(font=title_font)
@@ -122,22 +173,30 @@ class Controller:
             w.configure(font=result_font)
         for w in entry_widgets:
             w.configure(font=entry_font)
-        
+
+    # ===================== Dimensions =====================
     def configure_dimensions(self):
-        width, height=Style.EntryStyle.get_dimension()
-        cr=Style.EntryStyle.corner_radius
+        """
+        Set dimensions and corner radius for entry widgets.
+        """
+        width, height = Style.EntryStyle.get_dimension()
+        cr = Style.EntryStyle.corner_radius
 
         for w in self.widgets['entry_labels']:
             w.configure(width=width, height=height, corner_radius=cr)
 
+    # ===================== Colors =====================
     def load_colors(self):
-        title_widgets=self.widgets['titles']
-        result_widgets=self.widgets['result_labels']
-        entry_widgets=self.widgets['entry_labels']
-        numeric_btns=self.widgets['numeric_btns']
-        non_numeric_btns=self.widgets['non_numeric_keyboard_btns']
-        footer_btns=self.widgets['footer_btns']
-        entry_btn=self.widgets['entry_btn']
+        """
+        Apply color themes to all widgets and frames.
+        """
+        title_widgets = self.widgets['titles']
+        result_widgets = self.widgets['result_labels']
+        entry_widgets = self.widgets['entry_labels']
+        numeric_btns = self.widgets['numeric_btns']
+        non_numeric_btns = self.widgets['non_numeric_keyboard_btns']
+        footer_btns = self.widgets['footer_btns']
+        entry_btn = self.widgets['entry_btn']
 
         for t in title_widgets:
             t.configure(text_color=Color.TitleColor.PRIMARY)
@@ -146,9 +205,9 @@ class Controller:
         for e in entry_widgets:
             e.configure(fg_color=Color.EntryColor.PRIMARY, text_color=Color.EntryColor.TEXT, border_color=Color.EntryColor.BORDER)
         for n in numeric_btns:
-            n.configure(hover_color=Color.Buttons.NumericButtons.HOVER, fg_color=Color.Buttons.NumericButtons.PRIMARY)
+            n.configure(hover_color=Color.Buttons.NumericButtons.HOVER, fg_color=Color.Buttons.NumericButtons.PRIMARY, text_color=Color.Buttons.NumericButtons.TEXT)
         for nnb in non_numeric_btns:
-            nnb.configure(hover_color=Color.Buttons.NonNumericKeyboardButtons.Hover, fg_color=Color.Buttons.NonNumericKeyboardButtons.PRIMARY)
+            nnb.configure(hover_color=Color.Buttons.NonNumericKeyboardButtons.HOVER, fg_color=Color.Buttons.NonNumericKeyboardButtons.PRIMARY, text_color=Color.Buttons.NonNumericKeyboardButtons.TEXT)
         for f in footer_btns:
             f.configure(hover_color=Color.Buttons.FooterButtons.HOVER, fg_color=Color.Buttons.FooterButtons.PRIMARY, text_color=Color.Buttons.FooterButtons.TEXT)
 
@@ -159,10 +218,20 @@ class Controller:
         self.__EntryFrame.configure(fg_color=Color.FrameColor.EntryFrameColor.PRIMARY)
         self.__App.configure(fg_color=Color.FrameColor.AppColor.PRIMARY)
 
-        
-            
+    # ===================== User Input =====================
+    def get_user_input(self):
+        """
+        Return the current user input list from the entry frame.
 
+        Returns:
+            list: The user input list.
+        """
+        return self.__EntryFrame.user_input
 
+# ===================== Main Entry Point =====================
 def main():
-    C=Controller()
+    """
+    Application entry point. Instantiates the controller and starts the UI.
+    """
+    C = Controller()
     C.create()
