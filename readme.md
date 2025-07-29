@@ -19,7 +19,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
 1. **Clone or Download the Repository**
    ```bash
    git clone https://github.com/Mohamed2006-Dev/POLYNOME-PGCD-FINDER.git
-   cd pgcd-finder
+   cd POLYNOME-PGCD-FINDER
    ```
 
 2. **Install Dependencies**
