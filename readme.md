@@ -59,7 +59,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
 
 ## License 📄
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## Acknowledgements 🙌
 
