@@ -3,8 +3,8 @@ EntryFrame module.
 
 This module provides the EntryFrame class, a customtkinter frame for entering
 polynomials A(X) and B(X). It includes two entry fields, a main button, and
-methods for validation, focus management, clearing entries, and customizing
-appearance and icon.
+methods for validation, focus management, clearing entries, customizing
+appearance and icon, and managing the auto-correction setting.
 """
 
 import customtkinter as ctk
@@ -16,11 +16,12 @@ class EntryFrame(ctk.CTkFrame):
     EntryFrame is a customtkinter frame for entering polynomials A(X) and B(X).
 
     It provides two entry fields, a main button, and methods for validation,
-    focus management, clearing entries, and customizing appearance and icon.
+    focus management, clearing entries, customizing appearance and icon,
+    and managing the auto-correction state.
     """
     def __init__(self, master):
         """
-        Initialize the entry fields and main button.
+        Initialize the entry fields, main button, and auto-correction state.
 
         Args:
             master: The parent widget.
@@ -33,7 +34,7 @@ class EntryFrame(ctk.CTkFrame):
         # Main button for PGCD finder
         self.__pgcd_finder_button = ctk.CTkButton(self, text='Button', font=("Arial", 25), command=None)
         # Bind validation and focus events for entry 1
-        self.__entry1.bind("<KeyRelease>", lambda x: validate_entry(self.getentrytuple(self.__entry1), self.user_input))
+        self.__entry1.bind("<KeyRelease>", lambda x: validate_entry(self.getentrytuple(self.__entry1), self.user_input, self.auto_correction_state))
         self.__entry1.bind("<FocusIn>", lambda x: self.setfocus(self.__entry1))
         self.__entry1.bind('<BackSpace>', self.backspace_handler)
 
@@ -41,13 +42,14 @@ class EntryFrame(ctk.CTkFrame):
         self.__str_var_2 = ctk.StringVar(value='B(X) =')
         self.__entry2 = ctk.CTkEntry(self, textvariable=self.__str_var_2, font=("Arial", 20))
         # Bind validation and focus events for entry 2
-        self.__entry2.bind("<KeyRelease>", lambda x: validate_entry(self.getentrytuple(self.__entry2), self.user_input))
+        self.__entry2.bind("<KeyRelease>", lambda x: validate_entry(self.getentrytuple(self.__entry2), self.user_input, self.auto_correction_state))
         self.__entry2.bind("<FocusIn>", lambda x: self.setfocus(self.__entry2))
         self.__entry2.bind("<BackSpace>", self.backspace_handler)
 
-        # Track current focus and user input
+        # Track current focus, user input, and auto-correction state
         self.currentfocus = None
         self.user_input = ['', '']
+        self.auto_correction_state = True  # Default: auto-correction enabled
         # Set initial focus to entry 1
         self.__entry1.focus_force()
         # Configure grid columns for layout
@@ -105,12 +107,12 @@ class EntryFrame(ctk.CTkFrame):
 
     def clear_entries(self):
         """
-        Clear both entry fields and reset validation.
+        Clear both entry fields and reset their contents to default labels.
         """
         self.__entry1.delete(0, ctk.END)
         self.__entry2.delete(0, ctk.END)
-        validate_entry(self.getentrytuple(self.__entry1), self.user_input)
-        validate_entry(self.getentrytuple(self.__entry2), self.user_input)
+        self.__entry1.insert(0, 'A(X) =')
+        self.__entry2.insert(0, 'B(X) =')
 
     def setfocus(self, entry, event=None):
         """
@@ -164,5 +166,31 @@ class EntryFrame(ctk.CTkFrame):
         """
         return self.__pgcd_finder_button
     
+    def set_auto_correction(self, state: bool) -> None:
+        """
+        Set the auto-correction state for entry validation.
+
+        Args:
+            state (bool): True to enable auto-correction, False to disable.
+        """
+        self.auto_correction_state = state
+
+    def get_auto_correction(self):
+        """
+        Get the current auto-correction state.
+
+        Returns:
+            bool: True if auto-correction is enabled, False otherwise.
+        """
+        return self.auto_correction_state
+
     def backspace_handler(self, event):
-        return clear_btns(self.currentfocus, self.user_input, event=event)
+        """
+        Handle backspace key event for the currently focused entry.
+
+        Args:
+            event: The event object from the key press.
+        Returns:
+            Result of clear_btns utility function.
+        """
+        return clear_btns(self.currentfocus, self.user_input, self.get_auto_correction(), event=event)

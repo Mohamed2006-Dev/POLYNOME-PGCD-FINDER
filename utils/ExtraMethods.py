@@ -92,6 +92,32 @@ class ExtraMethods:
             btn, row, col = btns[key]
             btn.configure(height=50, font=("Arial", 25))
             btn.grid(row=row, column=col, sticky=sticky, rowspan=rowspan, padx=1, pady=1)
+    
+    @staticmethod
+    def fix_float_format_in_string(poly_str):
+        """
+        Fix floating-point coefficients in a polynomial string for proper parsing.
+
+        This method ensures that numbers like '2.500' become '2.5', trims the fractional part to at most
+        two digits, and removes the decimal part if it is '00' (e.g., '3.00' becomes '3').
+
+        Args:
+            poly_str (str): The polynomial string to process.
+
+        Returns:
+            str: The polynomial string with properly formatted floating-point numbers.
+        """
+        def repl(match):
+            integer_part = match.group(1)
+            fractional_part = match.group(3)
+            if len(fractional_part) > 2:
+                fractional_part = fractional_part[:2]
+            if fractional_part == '00':
+                return integer_part
+            return f'{integer_part}.{fractional_part.replace("0", "")}'
+        # Replace occurrences like '2.500' with '2.5', '3.00' with '3', etc.
+        poly_str = re.sub(r'(\d+)(\.)(\d+)', repl, poly_str)
+        return poly_str
 
 # Example usage for testing
 if __name__ == '__main__':

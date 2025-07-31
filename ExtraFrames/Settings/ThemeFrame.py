@@ -17,7 +17,7 @@ class ThemeFrame(ctk.CTkFrame):
     It displays radio buttons for selecting dark, light, or system mode,
     and provides methods to interact with these settings.
     """
-    def __init__(self, master, value='dark'):
+    def __init__(self, master, value='light'):
         """
         Initialize the ThemeFrame.
 
@@ -57,6 +57,7 @@ class ThemeFrame(ctk.CTkFrame):
         """
         for i, widget in enumerate(self.winfo_children()):
             widget.grid(row=0, column=i, pady=10, padx=10)
+        self.theme_settings_label.grid_configure(sticky='w')
         self.pack(fill='x', padx=10, pady=10)
 
     def get_theme(self):

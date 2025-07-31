@@ -37,3 +37,9 @@ class App(ctk.CTk):
             theme (str): The appearance mode to apply.
         """
         ctk.set_appearance_mode(theme)
+    
+    def get_entry_frame(self):
+        return self.entry_frame
+    
+    def set_entry_frame(self, entry_frame):
+        self.entry_frame=entry_frame

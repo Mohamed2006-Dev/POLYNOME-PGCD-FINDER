@@ -4,11 +4,12 @@ ProjectManager module.
 This module contains the Controller class, which serves as the main controller for the PGCD Finder application.
 It manages the initialization of UI frames, event binding, result display logic, and application configuration.
 The Controller class coordinates all UI components, handles user input, and applies styles, fonts, and colors.
+It also synchronizes settings such as auto-correction and theme between the settings window and entry frame.
 """
 
 # ===================== Imports =====================
 from ExtraFrames.EntryFrame import EntryFrame
-from Exceptions import Expression as Exp
+from Exceptions.Expression import ExpressionError
 from ExtraFrames.ResultFrame import ResultFrame
 from ExtraFrames.TopFrame import TopFrame
 from ExtraFrames.FooterFrame import FooterFrame
@@ -29,9 +30,11 @@ class Controller:
     Main controller for the PGCD Finder application.
 
     Handles UI setup, event binding, result display logic, and applies styles, fonts, and colors.
+    Coordinates all UI components, manages user input, and synchronizes settings such as auto-correction.
     """
     def __init__(self):
         # ---------- Window Layers ----------
+        # Initialize all main frames and application window
         self.__App = App()
         self.__EntryFrame = EntryFrame(self.__App)
         self.__ResultFrame = ResultFrame(self.__App)
@@ -40,6 +43,7 @@ class Controller:
         self.__KeyboardFrame = KeyboardFrame(self.__App)
         
         # ---------- Widget References ----------
+        # Store references to key widgets for easy configuration
         self.__entry1 = self.__EntryFrame.getentry(1)
         self.__entry2 = self.__EntryFrame.getentry(2)
         self.widgets = {
@@ -53,31 +57,45 @@ class Controller:
         }
 
         # ---------- Initialization Calls ----------
+        # Set up commands, images, fonts, dimensions, and colors
         self.set_buttons_command()
         self.apply_images()
         self.load_fonts()
         self.configure_dimensions()
         self.load_colors()
+        # Link entry frame to the app for settings synchronization
+        self.__App.set_entry_frame(self.__EntryFrame)
+
+        # Bind Enter key to show result
+        self.__App.bind('<Return>', self.show_result)
         # ---------- End Initialization ----------
 
     # ===================== Calculation & Result =====================
     def __compute_result(self):
         """
-        compute the calculation of quotient, remainder, and GCD.
+        Compute the calculation of quotient, remainder, and GCD.
 
         Returns:
             tuple: (Q, R, pgcd) or (None, None, None) on error.
+        Raises:
+            ExpressionError: If input is invalid or cannot be parsed.
         """
-        p1 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[0])) if self.__EntryFrame.user_input[0] != '' else ''
-        p2 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[1])) if self.__EntryFrame.user_input[1] != '' else ''
+        try:
+            p1 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[0])) if self.__EntryFrame.user_input[0] != '' else ''
+            p2 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[1])) if self.__EntryFrame.user_input[1] != '' else ''
 
-        if p1 and p2:
-            Q, R, pgcd = perform_calculation(p1, p2)
-            return Q, R, pgcd
-        else:
-            return None, None, None
+            if p1 and p2:
+                Q, R, pgcd = perform_calculation(p1, p2)
+                return Q, R, pgcd
+            else:
+                return None, None, None
+        except Exception as e:
+            self.__EntryFrame.clear_entries()
+            self.__App.focus_force()
+            self.__EntryFrame.currentfocus=None
+            raise ExpressionError("Unexpected expression error: Polynomials are not in the correct format")
 
-    def show_result(self):
+    def show_result(self, event=None):
         """
         Show the calculation result in the result frame.
 
@@ -88,7 +106,7 @@ class Controller:
         validation = E.is_none(Q) and E.is_none(R) and E.is_none(pgcd)
         if validation:
             self.__EntryFrame.clear_entries()
-            raise Exp.ExpressionError("Unexpected expression error: Polynomials are not in the correct format")
+            raise ExpressionError("Unexpected expression error: Polynomials are not in the correct format")
 
         self.__ResultFrame.config_quotient(Q)
         self.__ResultFrame.config_rest(R)
@@ -109,6 +127,7 @@ class Controller:
     def set_buttons_command(self):
         """
         Bind all button commands for entry, footer, and keyboard.
+        Sets up synchronization between settings and entry frame (e.g., auto-correction).
         """
         # Entry button
         self.__EntryFrame.pgcd_command(self.show_result)
@@ -130,10 +149,16 @@ class Controller:
         btns = self.__KeyboardFrame.getbtns('general')
         for btn in btns:
             text = btn.cget('text')
-            self.__KeyboardFrame.set_btns_command(btn, lambda t=text: keyboard_touche(t, self.__EntryFrame.getfocus(), self.get_user_input()))
+            self.__KeyboardFrame.set_btns_command(btn, lambda t=text: keyboard_touche(t, self.__EntryFrame.getfocus(), self.get_user_input(), self.__EntryFrame.get_auto_correction()))
 
-        command1 = lambda: clear_btns(self.__EntryFrame.getfocus(), self.get_user_input(), 'clear all')
-        command2 = lambda: clear_btns(self.__EntryFrame.getfocus(), self.get_user_input())
+        command1 = lambda: clear_btns(
+                                    self.__EntryFrame.getfocus(), self.get_user_input(), 
+                                    self.__EntryFrame.get_auto_correction(),'clear all'
+                                    )
+        command2 = lambda: clear_btns(
+                                    self.__EntryFrame.getfocus(), self.get_user_input(), 
+                                    self.__EntryFrame.get_auto_correction(), 'clear last'
+                                    )
         self.__KeyboardFrame.set_clear_btns_command(command1, command2)
 
     # ===================== Images & Icons =====================

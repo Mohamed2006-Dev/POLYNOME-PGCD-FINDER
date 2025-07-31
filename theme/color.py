@@ -72,8 +72,8 @@ class Color:
             Colors for the tips and instructions frame.
             """
             TITLE = ("#23b0e2", '#2BDBEA')
-            ALLOWED = ("#222", "#2BD82B")
-            WARNING = ("#222", "#D5D82B")
+            ALLOWED = ("#2BD82B", "#2BD82B")
+            WARNING = ("#E4A00F", "#D5D82B")
             PRIMARY = 'transparent'
             SECONDARY = ("#F1F1F1", "#131212")
             BORDER = ("#000000", "#FFFFFF")

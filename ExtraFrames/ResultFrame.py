@@ -7,6 +7,7 @@ labels for each value and methods to update and retrieve these labels.
 """
 
 import customtkinter as ctk
+from utils.ExtraMethods import ExtraMethods as E
 
 class ResultFrame(ctk.CTkFrame):
     """
@@ -46,7 +47,9 @@ class ResultFrame(ctk.CTkFrame):
         Args:
             q: The quotient value (should have .as_expr() method).
         """
-        self.__Q.configure(text=f"Quotient: {q.as_expr()}")
+        result=E.fix_float_format_in_string(E.replace_exponents(str(q.as_expr())))
+        self.__Q.configure(text=f"Quotient: {result}")
+        del result
 
     def config_rest(self, r) -> None:
         """
@@ -55,7 +58,9 @@ class ResultFrame(ctk.CTkFrame):
         Args:
             r: The remainder value (should have .as_expr() method).
         """
-        self.__R.configure(text=f"Rest: {r.as_expr()}")
+        result=E.fix_float_format_in_string(E.replace_exponents(str(r.as_expr())))
+        self.__R.configure(text=f"Rest: {result}")
+        del result
 
     def config_pgcd(self, p) -> None:
         """
@@ -64,7 +69,9 @@ class ResultFrame(ctk.CTkFrame):
         Args:
             p: The GCD value (should have .as_expr() method).
         """
-        self.__PGCD.configure(text=f"PGCD: {p.as_expr()}")
+        result=E.fix_float_format_in_string(E.replace_exponents(str(p.as_expr())))
+        self.__PGCD.configure(text=f"PGCD: {result}")
+        del result
         
     def get_title(self):
         """

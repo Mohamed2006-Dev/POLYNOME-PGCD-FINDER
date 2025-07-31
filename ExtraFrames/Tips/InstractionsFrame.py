@@ -38,7 +38,7 @@ class InstractionsFrame(ctk.CTkFrame):
         # Instruction tip labels
         self.tip_1_label = ctk.CTkLabel(
             self.inner_frame, 
-            text = "✅ Enter powers as X**n or use superscript format like X². The program will handle both.", 
+            text = "✅ You can simply enter X3 and the app will automatically convert it to X³ (superscript).", 
             font = ("Arial", 30)
         )
         self.tip_2_label = ctk.CTkLabel(
@@ -68,7 +68,12 @@ class InstractionsFrame(ctk.CTkFrame):
         )
         self.tip_7_label = ctk.CTkLabel(
             self.inner_frame, 
-            text = "⚠️ Avoid using invalid symbols. Only numbers, +, -, /, *, X, and powers are allowed.", 
+            text = "⚠️ Don't use symbols other than numbers (0-9), operators (+, -, /, *), X, and exponents (**).", 
+            font = ("Arial", 30)
+        )
+        self.tip_8_label = ctk.CTkLabel(
+            self.inner_frame,
+            text = "⚠️ If auto-correction is disabled, you must enter polynomials in the correct format",
             font = ("Arial", 30)
         )
 

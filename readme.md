@@ -10,16 +10,41 @@ PGCD Finder is a Python application designed to help users calculate the Greates
 - **User-Friendly Interface:** Modern and intuitive GUI built with [customtkinter](https://github.com/TomSchimansky/CustomTkinter).
 - **Keyboard Support:** On-screen keyboard for easy polynomial entry ⌨️.
 - **Input Validation:** Automatic correction and validation of polynomial input 🧹.
+- **Auto-Correction Toggle:** Enable or disable automatic input correction for polynomials in the settings ⚙️.
 - **Tips & Examples:** Built-in tips and example polynomials to help users get started 💡📚.
 - **Theme Support:** Switch between dark, light, and system appearance modes 🌗.
 - **Clear Results Display:** Shows quotient, remainder, and GCD in a readable format 📝.
+- **Improved Floating-Point Handling:** Floating-point coefficients are now correctly parsed and displayed.
+
+## What's New & Updates 🆕
+
+- **Settings Window:**  
+  A dedicated settings window allows you to:
+  - Toggle auto-correction for polynomial input (ON/OFF).
+  - Instantly switch between light, dark, and system appearance modes.
+  - All settings changes are applied live to the application.
+
+- **Input Validation System Improvements:**  
+  - Supports input like `X3` which is auto-converted to `X**3` and then to `X³` (superscript).
+  - Improved handling and formatting of floating-point coefficients (e.g., `2.500` becomes `2.5`, `3.00` becomes `3`).
+  - You can disable auto-correction for manual input; if disabled, polynomials must be entered in the correct format.
+
+- **Tips Window Redesign:**  
+  - Tips and instructions are now visually separated:
+    - **Authorized actions** are shown with green color and a ✅ icon.
+    - **Warnings and restrictions** are shown with yellow/orange color and a ⚠️ icon.
+  - Instructions are clearer and reflect the latest input and settings features, including auto-correction.
+
+- **Instructions Update:**  
+  - The instructions now include a warning about disabling auto-correction:  
+    ⚠️ If auto-correction is disabled, you must enter polynomials in the correct format or errors may occur.
 
 ## Usage 🛠️
 
 1. **Clone or Download the Repository**
    ```bash
-   git clone https://github.com/Mohamed2006-Dev/POLYNOME-PGCD-FINDER.git
-   cd POLYNOME-PGCD-FINDER
+   git clone https://github.com/yourusername/pgcd-finder.git
+   cd pgcd-finder
    ```
 
 2. **Install Dependencies**
@@ -39,6 +64,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
    - Click the main button to calculate the GCD.
    - View the quotient, remainder, and GCD in the results section.
    - Use the "Tips" and "Example" buttons for guidance.
+   - **Auto-Correction:** You can enable or disable auto-correction in the settings window. If disabled, make sure to enter polynomials in the correct format to avoid errors.
 
 ## Dependencies 📦
 
@@ -59,7 +85,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
 
 ## License 📄
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements 🙌
 

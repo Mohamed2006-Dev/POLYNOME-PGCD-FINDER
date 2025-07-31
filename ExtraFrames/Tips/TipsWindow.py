@@ -27,7 +27,7 @@ class TipsWindow(ctk.CTkToplevel):
         """
         super().__init__(master)
         # Set window geometry and properties
-        self.geometry("1300x700")
+        self.geometry("1300x800")
         self.title("Instractions")
         self.lift()         # Bring window to front
         self.focus_set()    # Focus on this window

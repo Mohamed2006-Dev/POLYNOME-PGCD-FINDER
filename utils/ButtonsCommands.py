@@ -3,7 +3,8 @@ ButtonsCommands module.
 
 This module provides functions that implement the logic for button actions in the PGCD Finder application.
 It includes handlers for example, tips, keyboard, clear, and settings buttons, and manages user input and
-UI updates for these actions.
+UI updates for these actions. It also supports toggling auto-correction and synchronizing settings between
+the settings window and the entry frame.
 """
 
 import customtkinter as ctk
@@ -24,7 +25,7 @@ def example_button_command(controller, entry_tuple1: tuple[ctk.CTkEntry|ctk.Stri
     """
     entry1= entry_tuple1[0]
     entry2= entry_tuple2[0]
-    example_p1 = "X**2 + 2*X + 1"
+    example_p1 = "X² + 2*X + 1"
     example_p2 = "X + 1"
 
     entry1.delete(0, ctk.END)
@@ -34,8 +35,6 @@ def example_button_command(controller, entry_tuple1: tuple[ctk.CTkEntry|ctk.Stri
     entry2.insert(0, f'B(X) ={example_p2}')
     user_input[0] = example_p1
     user_input[1] = example_p2
-    validate_entry(entry_tuple1, user_input)
-    validate_entry(entry_tuple2, user_input)
 
     controller.show_result()
 
@@ -57,7 +56,7 @@ def tips_button_command(master):
     )
     tip_window.Show()
 
-def keyboard_touche(text, entry_tuple, user_input):
+def keyboard_touche(text, entry_tuple, user_input, auto_correction_state):
     """
     Insert text into the entry at the cursor position and validate.
 
@@ -66,11 +65,14 @@ def keyboard_touche(text, entry_tuple, user_input):
         entry_tuple: Tuple containing the entry widget.
         user_input: List to store user input strings.
     """
+    if entry_tuple is None:
+        return
+    
     entry = entry_tuple[0]
     entry.insert(entry.index('insert'), text)
-    validate_entry(entry_tuple, user_input)
+    validate_entry(entry_tuple, user_input, auto_correction_state=auto_correction_state)
 
-def clear_btns(entry_tuple, user_input, clear_type=None, event=None):
+def clear_btns(entry_tuple, user_input, auto_correction_state,clear_type=None, event=None):
     """
     Handle clearing or deleting characters in the entry field. 
  
@@ -94,18 +96,22 @@ def clear_btns(entry_tuple, user_input, clear_type=None, event=None):
         - To intercept key events like BackSpace, bind this function to the specific Entry widget, 
           not to the master/root widget.
     """
+    if entry_tuple is None:
+        return 'break'
+    
     widget, _, prefix = entry_tuple
-
     cursor_index = widget.index('insert')
+    
+    if clear_type == 'clear all':
+        widget.delete(0, ctk.END)
+        widget.insert(0, f'{prefix} =')
+        widget.icursor(ctk.END)
+        return 'break'
+    
     # Prevent deleting the prefix
     if cursor_index <= len(prefix + ' ='):
         return 'break'
     
-    if clear_type == 'clear all':
-        widget.delete(0, ctk.END)
-        validate_entry(entry_tuple, user_input)
-        widget.icursor(ctk.END)
-        return 'break'
 
     try:
         sel_start=widget.index('sel.first')
@@ -115,13 +121,15 @@ def clear_btns(entry_tuple, user_input, clear_type=None, event=None):
         has_selection=False
 
     if has_selection:
+        if sel_start<=len(prefix):
+            return 'break'
         widget.delete('sel.first', 'sel.last')
+
     else:
         widget.delete(widget.index('insert') - 1, widget.index('insert'))
         widget.icursor(ctk.END)
     
-    validate_entry(entry_tuple, user_input)
-    print("Delete Buttons is pressed")
+    validate_entry(entry_tuple, user_input, auto_correction_state, event)
     return 'break'
 
 def keyboard_show_hide(keyboard_state, keyboard_frame):
@@ -137,9 +145,19 @@ def keyboard_show_hide(keyboard_state, keyboard_frame):
     else:
         keyboard_frame.Hide()
 
+def auto_correction_on_off(entry_frame, state):
+    """
+    Update the auto-correction state of the entry frame.
+
+    Args:
+        entry_frame: The EntryFrame instance whose auto-correction state will be updated.
+        state (bool): The new auto-correction state (True for ON, False for OFF).
+    """
+    entry_frame.set_auto_correction(state)
+
 def settings_button_command(master, color, font):
     """
-    Show the settings window and apply color/font to the theme title.
+    Show the settings window, apply color/font to the theme title, and synchronize auto-correction.
 
     Args:
         master: The parent widget (main application window).
@@ -147,5 +165,11 @@ def settings_button_command(master, color, font):
         font: Font for the settings title.
     """
     settings_window = SettingsWindow(master)
+    # Set the color and font for the theme and auto-correction frames title in the settings window
     settings_window.Theme_Frame.set_title_color_font(color, font)
+    settings_window._Auto_Correction_Frame.set_color_font(color, font)
+    # Set the command for auto-correction toggle to update the entry frame accordingly
+    settings_window.set_auto_correction_command(
+        lambda: auto_correction_on_off(master.get_entry_frame(), settings_window._Auto_Correction_Frame.get_state())
+    )
     settings_window.Show()
