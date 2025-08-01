@@ -14,6 +14,7 @@ from ExtraFrames.ResultFrame import ResultFrame
 from ExtraFrames.TopFrame import TopFrame
 from ExtraFrames.FooterFrame import FooterFrame
 from ExtraFrames.KeyboardFrame import KeyboardFrame
+from ExtraFrames.ToolbarFrame import ToolbarFrame
 from ExtraFrames.App import App
 from utils.ExtraMethods import ExtraMethods as E
 from utils.parser import *
@@ -36,6 +37,7 @@ class Controller:
         # ---------- Window Layers ----------
         # Initialize all main frames and application window
         self.__App = App()
+        self.__ToolbarFrame = ToolbarFrame(self.__App)
         self.__EntryFrame = EntryFrame(self.__App)
         self.__ResultFrame = ResultFrame(self.__App)
         self.__TopFrame = TopFrame(self.__App)
@@ -118,6 +120,7 @@ class Controller:
         """
         Show all main frames and start the application main loop.
         """
+        self.__ToolbarFrame.Show()
         self.__TopFrame.Show()
         self.__EntryFrame.Show()
         self.__FooterFrame.Show(sticky=['sw', 's', 's', 'se'])
