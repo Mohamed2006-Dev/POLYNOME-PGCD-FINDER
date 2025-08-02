@@ -55,7 +55,8 @@ class Controller:
             "numeric_btns": self.__KeyboardFrame.getnumericbtns(),
             "non_numeric_keyboard_btns": self.__KeyboardFrame.get_non_numeric_btns(),
             "footer_btns": self.__FooterFrame.get_buttons(),
-            "entry_btn": self.__EntryFrame.get_button()
+            "entry_btn": self.__EntryFrame.get_button(),
+            "toolbar_btns": self.__ToolbarFrame.get_buttons()
         }
 
         # ---------- Initialization Calls ----------
@@ -123,7 +124,7 @@ class Controller:
         self.__ToolbarFrame.Show()
         self.__TopFrame.Show()
         self.__EntryFrame.Show()
-        self.__FooterFrame.Show(sticky=['sw', 's', 's', 'se'])
+        self.__FooterFrame.Show(sticky=['sw', 's', 'se'])
         self.__App.mainloop()
 
     # ===================== Button Commands =====================
@@ -146,7 +147,6 @@ class Controller:
         )
         self.__FooterFrame.set_tips_command(lambda: tips_button_command(self.__App))
         self.__FooterFrame.set_keyboard_command(lambda: keyboard_show_hide(self.__KeyboardFrame.getkeyboard_state(), self.__KeyboardFrame))
-        self.__FooterFrame.set_settings_button_command(lambda: settings_button_command(self.__App, Color.FrameColor.SettingsColor.TITLE, SettingsTitleCTkFont()))
         
         # Keyboard buttons
         btns = self.__KeyboardFrame.getbtns('general')
@@ -163,6 +163,9 @@ class Controller:
                                     self.__EntryFrame.get_auto_correction(), 'clear last'
                                     )
         self.__KeyboardFrame.set_clear_btns_command(command1, command2)
+        
+        #toolbar buttons
+        self.__ToolbarFrame.set_settings_command(lambda: settings_button_command(self.__App, Color.FrameColor.SettingsColor.TITLE, SettingsTitleCTkFont()))
 
     # ===================== Images & Icons =====================
     def apply_images(self):
@@ -173,7 +176,6 @@ class Controller:
         self.__FooterFrame.set_icons(
             tipsicon=Assets.convert("request", (50, 50)),
             keyboardicon=Assets.convert('technology', (50, 50)),
-            settingsicon=Assets.convert('settings', (50, 50)),
             exampleicon=Assets.convert('book', (50, 50))
         )
         self.__TopFrame.set_icons(
@@ -181,6 +183,8 @@ class Controller:
             Assets.convert('calculating', (50, 50))
         )
         self.__KeyboardFrame.configure_btns(Assets.convert(("exposant(light)", "exposant"), (30, 30)))
+
+        self.__ToolbarFrame.load_icons(Assets.convert('settings', (20, 20)))
 
     # ===================== Fonts =====================
     def load_fonts(self):

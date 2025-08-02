@@ -11,7 +11,7 @@ import customtkinter as ctk
 
 class FooterFrame(ctk.CTkFrame):
     """
-    FooterFrame is a customtkinter frame for footer buttons (TIPS, keyboard, EXAMPLE, settings).
+    FooterFrame is a customtkinter frame for footer buttons (TIPS, keyboard, EXAMPLE).
 
     It provides methods to set commands, icons, and retrieve the button widgets.
     """
@@ -27,8 +27,6 @@ class FooterFrame(ctk.CTkFrame):
         self.__tipsbutton = ctk.CTkButton(self, text='TIPS', width=50, height=50, font=("Arial", 35))
         # Button for keyboard
         self.__techbutton = ctk.CTkButton(self, text='keyboard', width=50, height=50, font=("Arial", 35))
-        # Button for settings
-        self.__settingsbutton = ctk.CTkButton(self, text='Button', width=50, height=50)
         # Button for EXAMPLE
         self.__examplebutton = ctk.CTkButton(self, text="EXAMPLE", width=50, height=50, font=("Arial", 35))
 
@@ -50,7 +48,7 @@ class FooterFrame(ctk.CTkFrame):
         """
         Configure the column weights for the footer layout.
         """
-        for i in range(4):
+        for i in range(3):
             self.columnconfigure(i, weight=1)
         
     def set_example_command(self, command):
@@ -79,29 +77,18 @@ class FooterFrame(ctk.CTkFrame):
             command (callable): Function to call when the TIPS button is pressed.
         """
         self.__tipsbutton.configure(command=command)
-    
-    def set_settings_button_command(self, command):
-        """
-        Set the command for the settings button.
 
-        Args:
-            command (callable): Function to call when the settings button is pressed.
-        """
-        self.__settingsbutton.configure(command=command)
-
-    def set_icons(self, tipsicon, keyboardicon, settingsicon, exampleicon):
+    def set_icons(self, tipsicon, keyboardicon, exampleicon):
         """
         Set the icons for the footer buttons.
 
         Args:
             tipsicon: Icon for the TIPS button.
             keyboardicon: Icon for the keyboard button.
-            settingsicon: Icon for the settings button.
             exampleicon: Icon for the EXAMPLE button.
         """
         self.__tipsbutton.configure(image=tipsicon, compound='left')
         self.__techbutton.configure(image=keyboardicon, text='', compound='top')
-        self.__settingsbutton.configure(image=settingsicon, text='', compound='top')
         self.__examplebutton.configure(image=exampleicon, compound='right')
 
     def get_buttons(self):
@@ -109,7 +96,7 @@ class FooterFrame(ctk.CTkFrame):
         Return a list of all footer buttons.
 
         Returns:
-            list: List of button widgets [keyboard, example, settings, tips].
+            list: List of button widgets [keyboard, example, tips].
         """
-        return [self.__techbutton, self.__examplebutton, self.__settingsbutton, self.__tipsbutton]
+        return [self.__techbutton, self.__examplebutton, self.__tipsbutton]
 
