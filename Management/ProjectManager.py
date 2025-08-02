@@ -229,6 +229,7 @@ class Controller:
         non_numeric_btns = self.widgets['non_numeric_keyboard_btns']
         footer_btns = self.widgets['footer_btns']
         entry_btn = self.widgets['entry_btn']
+        toolbar_btns=self.widgets['toolbar_btns']
 
         for t in title_widgets:
             t.configure(text_color=Color.TitleColor.PRIMARY)
@@ -242,6 +243,8 @@ class Controller:
             nnb.configure(hover_color=Color.Buttons.NonNumericKeyboardButtons.HOVER, fg_color=Color.Buttons.NonNumericKeyboardButtons.PRIMARY, text_color=Color.Buttons.NonNumericKeyboardButtons.TEXT)
         for f in footer_btns:
             f.configure(hover_color=Color.Buttons.FooterButtons.HOVER, fg_color=Color.Buttons.FooterButtons.PRIMARY, text_color=Color.Buttons.FooterButtons.TEXT)
+        for tool in toolbar_btns:
+            tool.configure(hover_color=Color.FrameColor.AppColor.PRIMARY, fg_color=Color.Buttons.ToolbarButton.PRIMARY)
 
         entry_btn.configure(hover_color=Color.Buttons.EntryButton.HOVER, fg_color=Color.Buttons.EntryButton.PRIMARY)
 
@@ -249,6 +252,8 @@ class Controller:
         self.__KeyboardFrame.configure(border_color=Color.FrameColor.KeyboardFrameColor.BORDER)
         self.__EntryFrame.configure(fg_color=Color.FrameColor.EntryFrameColor.PRIMARY)
         self.__App.configure(fg_color=Color.FrameColor.AppColor.PRIMARY)
+        self.__ToolbarFrame.configure(fg_color=Color.FrameColor.ToolbarColor.PRIMARY, border_color=Color.FrameColor.ToolbarColor.BORDER)
+        self.__ToolbarFrame.get_inner_frame().configure(fg_color=Color.FrameColor.ToolbarColor.PRIMARY)
 
     # ===================== User Input =====================
     def get_user_input(self):

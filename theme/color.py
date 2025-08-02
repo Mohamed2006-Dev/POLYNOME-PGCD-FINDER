@@ -77,6 +77,13 @@ class Color:
             PRIMARY = 'transparent'
             SECONDARY = ("#F1F1F1", "#131212")
             BORDER = ("#000000", "#FFFFFF")
+        
+        class ToolbarColor:
+            """
+            Colors for toolbar frame
+            """
+            PRIMARY='transparent'
+            BORDER=('#727070', "#727070")
 
     class Buttons:
         """
@@ -114,3 +121,10 @@ class Color:
             """
             PRIMARY = 'transparent'
             HOVER = ("#7EF5BB", "#0D5C21")
+
+        class ToolbarButton:
+            """
+            Colors for the toolbar buttons
+            """
+            PRIMARY='transparent'
+            HOVER='transparent'
