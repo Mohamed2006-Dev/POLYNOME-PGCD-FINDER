@@ -12,6 +12,7 @@ from theme.color import Color
 from utils.parser import validate_entry
 from ExtraFrames.Tips.TipsWindow import TipsWindow
 from ExtraFrames.Settings.SettingsWindow import SettingsWindow
+from ExtraFrames.History.HistoryWindow import HistoryWindow
 
 def example_button_command(controller, entry_tuple1: tuple[ctk.CTkEntry|ctk.StringVar|str], entry_tuple2: tuple[ctk.CTkEntry|ctk.StringVar|str], user_input: list[str]):
     """
@@ -173,3 +174,7 @@ def settings_button_command(master, color, font):
         lambda: auto_correction_on_off(master.get_entry_frame(), settings_window._Auto_Correction_Frame.get_state())
     )
     settings_window.Show()
+
+def history_button_command(master):
+    history_window=HistoryWindow(master)
+    
