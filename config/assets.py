@@ -35,6 +35,7 @@ class Assets:
         cls.images['paste'] = Image.open(r'res\paste.png')
         cls.images['maximize'] = Image.open(r'res\maximize(dark).png')
         cls.images['maximize(light)'] = Image.open(r'res\maximize(light).png')
+        cls.images['delete'] = Image.open(r'res\delete.png')
 
     @classmethod
     def convert(cls, key: tuple[str] | str, size: tuple[int]):

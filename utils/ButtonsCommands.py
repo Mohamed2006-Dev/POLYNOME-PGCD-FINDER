@@ -208,6 +208,9 @@ def history_button_command(master, history, entries, result_frame):
         history_frame.set_copy_clipboard_command(lambda text=t: copy_command(text))
         history_frame.Show()
     container.pack(fill='both',expand=True)
+    history_window.show_delete_btn()
+    history_window.set_delete_btn_command(lambda : delete_btn_command(history, history_window))
+    history_window.load_icon(Assets.convert('delete', (50, 50)))
 
 def show_history_command(window, entries, history_dict, result_frame):
     window.destroy()
@@ -226,3 +229,9 @@ def show_history_command(window, entries, history_dict, result_frame):
 
 def copy_command(text):
     pyperclip.copy(text)
+
+def delete_btn_command(history, window):
+    for widget in window.winfo_children():
+        widget.pack_forget()
+    window.show_empty()
+    history.clear()
