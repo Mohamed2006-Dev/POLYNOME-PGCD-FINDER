@@ -83,21 +83,23 @@ class Controller:
         Raises:
             ExpressionError: If input is invalid or cannot be parsed.
         """
+        history_array=self.__EntryFrame.history
         try:
             p1 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[0])) if self.__EntryFrame.user_input[0] != '' else ''
             p2 = E.convert_polynome(validate_user_input(self.__EntryFrame.user_input[1])) if self.__EntryFrame.user_input[1] != '' else ''
 
             if p1 and p2:
                 Q, R, pgcd = perform_calculation(p1, p2)
-
-                self.__EntryFrame.history.append(
-                    {
+                D={
                         'poly1': p1,
                         'poly2': p2,
                         'pgcd': pgcd 
                     }
-                )
-
+                if D in history_array:
+                    history_array.append(history_array.pop(history_array.index(D)))
+                    return Q, R, pgcd
+                
+                history_array.append(D)
                 return Q, R, pgcd
             else:
                 return None, None, None
