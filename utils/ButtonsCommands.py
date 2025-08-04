@@ -219,9 +219,9 @@ def show_history_command(window, entries, history_dict, result_frame):
     entry2.insert(0, f'B(X) ={E.displayed_format(p2)}')
     
     Q, R, PGCD = perform_calculation(p1, p2)
-    result_frame.config_quotient(E.displayed_format(Q))
-    result_frame.config_rest(E.displayed_format(R.as_expr))
-    result_frame.config_pgcd(E.displayed_format(PGCD))
+    result_frame.config_quotient(Q)
+    result_frame.config_rest(R)
+    result_frame.config_pgcd(PGCD)
     result_frame.Show()
 
 def copy_command(text):

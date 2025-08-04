@@ -47,7 +47,7 @@ class ResultFrame(ctk.CTkFrame):
         Args:
             q: The quotient value (should have .as_expr() method).
         """
-        result=E.fix_float_format_in_string(E.replace_exponents(str(q.as_expr())))
+        result=E.displayed_format(q)
         self.__Q.configure(text=f"Quotient: {result}")
         del result
 
@@ -58,7 +58,7 @@ class ResultFrame(ctk.CTkFrame):
         Args:
             r: The remainder value (should have .as_expr() method).
         """
-        result=E.fix_float_format_in_string(E.replace_exponents(str(r.as_expr())))
+        result=E.displayed_format(r)
         self.__R.configure(text=f"Rest: {result}")
         del result
 
@@ -69,7 +69,7 @@ class ResultFrame(ctk.CTkFrame):
         Args:
             p: The GCD value (should have .as_expr() method).
         """
-        result=E.fix_float_format_in_string(E.replace_exponents(str(p.as_expr())))
+        result=E.displayed_format(p)
         self.__PGCD.configure(text=f"PGCD: {result}")
         del result
         
