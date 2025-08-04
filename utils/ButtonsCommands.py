@@ -183,15 +183,17 @@ def history_button_command(master, history, entries, result_frame):
     history_window=HistoryWindow(master)
     if not history: 
         history_window.show_empty()
+    container=ctk.CTkScrollableFrame(history_window, fg_color='transparent')
     
     for d in history:
-        history_frame=HistoryFrame(history_window)
+        history_frame=HistoryFrame(container)
         p1, p2, pgcd=d['poly1'], d['poly2'], d['pgcd']
         t=f'Pgcd({E.displayed_format(p1)}, {E.displayed_format(p2)}) = {E.displayed_format(pgcd)}'
         history_frame.set_history_label(text=t)
         history_frame.set_show_command(lambda history_data=d: show_history_command(history_window, entries, history_data, result_frame))
         history_frame.set_copy_clipboard_command(lambda text=t: copy_command(text))
         history_frame.Show()
+    container.pack(fill='both',expand=True)
 
 def show_history_command(window, entries, history_dict, result_frame):
     window.destroy()
