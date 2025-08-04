@@ -85,6 +85,11 @@ class Color:
             PRIMARY='transparent'
             BORDER=('#727070', "#727070")
 
+        class HistoryColor:
+            TEXT=('#DB8524', '#DB8524')
+            BORDER=("#5F5D5D", "#BEBABA")
+            BUTTON=("#8B8A8A", "#383838")
+
     class Buttons:
         """
         Colors for various buttons.

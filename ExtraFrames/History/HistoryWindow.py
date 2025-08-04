@@ -18,3 +18,6 @@ class HistoryWindow(ctk.CTkToplevel):
     def show_empty(self):
         self.empty_window.pack(expand=True)
     
+    def set_color(self, color):
+        self.configure(fg_color=color)
+    

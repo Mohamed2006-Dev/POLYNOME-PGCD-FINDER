@@ -40,3 +40,8 @@ class SettingsTitleCTkFont(ctk.CTkFont):
     def __init__(self):
         font_name, size = Style.SettingsTitleStyle.get_style()
         super().__init__(font_name, size)
+
+class HistoryCTkFont(ctk.CTkFont):
+    def __init__(self):
+        font_name, size = Style.EntryStyle.get_style()
+        super().__init__(font_name, size)

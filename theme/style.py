@@ -92,3 +92,14 @@ class Style:
                 tuple: (font_name, size)
             """
             return cls.font_name, cls.size
+
+    class HistoryStyle:
+        """
+        Style for history frame
+        """
+        font_name = "Quivira"
+        size = 25
+
+        @classmethod
+        def get_style(cls):
+            return cls.font_name, cls.size

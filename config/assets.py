@@ -32,6 +32,9 @@ class Assets:
         cls.images['user-guide'] = Image.open(r'res\user-guide.png')
         cls.images['settings'] = Image.open(r'res\settings.png')
         cls.images['history'] = Image.open(r'res\history.png')
+        cls.images['paste'] = Image.open(r'res\paste.png')
+        cls.images['maximize'] = Image.open(r'res\maximize(dark).png')
+        cls.images['maximize(light)'] = Image.open(r'res\maximize(light).png')
 
     @classmethod
     def convert(cls, key: tuple[str] | str, size: tuple[int]):
