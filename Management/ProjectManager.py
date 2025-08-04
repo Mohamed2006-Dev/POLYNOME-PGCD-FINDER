@@ -179,7 +179,7 @@ class Controller:
         
         #toolbar buttons
         self.__ToolbarFrame.set_settings_command(lambda: settings_button_command(self.__App, Color.FrameColor.SettingsColor.TITLE, SettingsTitleCTkFont()))
-        self.__ToolbarFrame.set_history_command(lambda: history_button_command(self.__App, self.__EntryFrame.history, (self.__entry1, self.__entry2), self.__ResultFrame))
+        self.__ToolbarFrame.set_history_command(lambda: history_button_command(self.__App, self.__EntryFrame.history, (self.__entry1, self.__entry2), self.__ResultFrame, self.get_user_input()))
 
     # ===================== Images & Icons =====================
     def apply_images(self):

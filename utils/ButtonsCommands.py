@@ -181,7 +181,7 @@ def settings_button_command(master, color, font):
     )
     settings_window.Show()
 
-def history_button_command(master, history, entries, result_frame):
+def history_button_command(master, history, entries, result_frame, user_input):
     history_window=HistoryWindow(master)
     history_window.set_colors(
         Color.FrameColor.AppColor.PRIMARY, 
@@ -208,7 +208,7 @@ def history_button_command(master, history, entries, result_frame):
             Assets.convert('paste', (30, 30))
         )
         history_frame.set_font(HistoryCTkFont())
-        history_frame.set_show_command(lambda history_data=d: show_history_command(history_window, entries, history_data, result_frame))
+        history_frame.set_show_command(lambda history_data=d: show_history_command(history_window, entries, history_data, result_frame, user_input))
         history_frame.set_copy_clipboard_command(lambda text=t: copy_command(text))
         history_frame.Show()
     container.pack(fill='both',expand=True)
@@ -216,7 +216,7 @@ def history_button_command(master, history, entries, result_frame):
     history_window.set_delete_btn_command(lambda : delete_btn_command(history, history_window))
     history_window.load_icon(Assets.convert('delete', (20, 20)))
 
-def show_history_command(window, entries, history_dict, result_frame):
+def show_history_command(window, entries, history_dict, result_frame, user_input):
     window.destroy()
     entry1, entry2 = entries
     p1, p2 = history_dict['poly1'], history_dict['poly2']
@@ -230,7 +230,8 @@ def show_history_command(window, entries, history_dict, result_frame):
     result_frame.config_rest(R)
     result_frame.config_pgcd(PGCD)
     result_frame.Show()
-
+    user_input[0] = E.displayed_format(p1)
+    user_input[1] = E.displayed_format(p2)
 def copy_command(text):
     pyperclip.copy(text)
 
