@@ -133,3 +133,7 @@ class Color:
             """
             PRIMARY='transparent'
             HOVER='transparent'
+
+        class HistoryButton:
+            PRIMARY='transparent'
+            HOVER=("#585757", "#585757")

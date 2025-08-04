@@ -14,13 +14,14 @@ class HistoryWindow(ctk.CTkToplevel):
             text="No operations have been performed yet.\nYour operation history will appear here.",
             font=('Sergio UI', 35)
         )
-        self._delete_btn = ctk.CTkButton(self, text='', height=50, width=50)
+        self._delete_btn = ctk.CTkButton(self, text='', height=25, width=25)
 
     def show_empty(self):
         self.empty_window.pack(expand=True)
     
-    def set_color(self, color):
-        self.configure(fg_color=color)
+    def set_colors(self, window_color, btn_color, btn_hover_color):
+        self.configure(fg_color=window_color)
+        self._delete_btn.configure(fg_color=btn_color, hover_color=btn_hover_color)
 
     def load_icon(self, icon):
         self._delete_btn.configure(image=icon, compound='top')

@@ -183,7 +183,11 @@ def settings_button_command(master, color, font):
 
 def history_button_command(master, history, entries, result_frame):
     history_window=HistoryWindow(master)
-    history_window.set_color(Color.FrameColor.AppColor.PRIMARY)
+    history_window.set_colors(
+        Color.FrameColor.AppColor.PRIMARY, 
+        Color.Buttons.HistoryButton.PRIMARY, 
+        Color.Buttons.HistoryButton.HOVER
+    )
     if not history: 
         history_window.show_empty()
         return
@@ -210,7 +214,7 @@ def history_button_command(master, history, entries, result_frame):
     container.pack(fill='both',expand=True)
     history_window.show_delete_btn()
     history_window.set_delete_btn_command(lambda : delete_btn_command(history, history_window))
-    history_window.load_icon(Assets.convert('delete', (50, 50)))
+    history_window.load_icon(Assets.convert('delete', (20, 20)))
 
 def show_history_command(window, entries, history_dict, result_frame):
     window.destroy()
