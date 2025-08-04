@@ -193,7 +193,7 @@ def history_button_command(master, history, entries, result_frame, user_input):
         return
     
     container=ctk.CTkScrollableFrame(history_window, fg_color='transparent')
-    for d in history:
+    for d in history[::-1]:
         history_frame=HistoryFrame(container)
         p1, p2, pgcd=d['poly1'], d['poly2'], d['pgcd']
         t=f'Pgcd({E.displayed_format(p1)}, {E.displayed_format(p2)}) = {E.displayed_format(pgcd)}'
