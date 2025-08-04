@@ -10,9 +10,13 @@ the settings window and the entry frame.
 import customtkinter as ctk
 from theme.color import Color
 from utils.parser import validate_entry
+from utils.ExtraMethods import ExtraMethods as E
 from ExtraFrames.Tips.TipsWindow import TipsWindow
 from ExtraFrames.Settings.SettingsWindow import SettingsWindow
 from ExtraFrames.History.HistoryWindow import HistoryWindow
+from ExtraFrames.History.HistoryFrame import HistoryFrame
+from utils.Calculator import perform_calculation
+import pyperclip
 
 def example_button_command(controller, entry_tuple1: tuple[ctk.CTkEntry|ctk.StringVar|str], entry_tuple2: tuple[ctk.CTkEntry|ctk.StringVar|str], user_input: list[str]):
     """
@@ -175,6 +179,34 @@ def settings_button_command(master, color, font):
     )
     settings_window.Show()
 
-def history_button_command(master):
+def history_button_command(master, history, entries, result_frame):
     history_window=HistoryWindow(master)
+    if not history: 
+        history_window.show_empty()
     
+    for d in history:
+        history_frame=HistoryFrame(history_window)
+        p1, p2, pgcd=d['poly1'], d['poly2'], d['pgcd']
+        t=f'Pgcd({E.displayed_format(p1)}, {E.displayed_format(p2)}) = {E.displayed_format(pgcd)}'
+        history_frame.set_history_label(text=t)
+        history_frame.set_show_command(lambda history_data=d: show_history_command(history_window, entries, history_data, result_frame))
+        history_frame.set_copy_clipboard_command(lambda text=t: copy_command(text))
+        history_frame.Show()
+
+def show_history_command(window, entries, history_dict, result_frame):
+    window.destroy()
+    entry1, entry2 = entries
+    p1, p2 = history_dict['poly1'], history_dict['poly2']
+    entry1.delete(0, ctk.END)
+    entry1.insert(0, f'A(X) ={E.displayed_format(p1)}')
+    entry2.delete(0, ctk.END)
+    entry2.insert(0, f'B(X) ={E.displayed_format(p2)}')
+    
+    Q, R, PGCD = perform_calculation(p1, p2)
+    result_frame.config_quotient(E.displayed_format(Q))
+    result_frame.config_rest(E.displayed_format(R.as_expr))
+    result_frame.config_pgcd(E.displayed_format(PGCD))
+    result_frame.Show()
+
+def copy_command(text):
+    pyperclip.copy(text)

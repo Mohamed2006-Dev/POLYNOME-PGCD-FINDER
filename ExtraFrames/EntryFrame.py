@@ -46,10 +46,11 @@ class EntryFrame(ctk.CTkFrame):
         self.__entry2.bind("<FocusIn>", lambda x: self.setfocus(self.__entry2))
         self.__entry2.bind("<BackSpace>", self.backspace_handler)
 
-        # Track current focus, user input, and auto-correction state
+        # Track current focus, user input, auto-correction state and history
         self.currentfocus = None
         self.user_input = ['', '']
         self.auto_correction_state = True  # Default: auto-correction enabled
+        self.history = []
         # Set initial focus to entry 1
         self.__entry1.focus_force()
         # Configure grid columns for layout
@@ -104,6 +105,7 @@ class EntryFrame(ctk.CTkFrame):
             command (callable): Function to call when the button is pressed.
         """
         self.__pgcd_finder_button.configure(command=command)
+
 
     def clear_entries(self):
         """

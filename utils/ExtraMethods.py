@@ -119,6 +119,13 @@ class ExtraMethods:
         poly_str = re.sub(r'(\d+)(\.)(\d+)', repl, poly_str)
         return poly_str
 
+    @staticmethod
+    def displayed_format(poly):
+        poly=str(poly.as_expr())
+        poly=ExtraMethods.replace_exponents(poly)
+        poly=ExtraMethods.fix_float_format_in_string(poly)
+        return poly
+
 # Example usage for testing
 if __name__ == '__main__':
     print(ExtraMethods.replace_exponents("X**3"))

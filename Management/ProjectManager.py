@@ -89,6 +89,15 @@ class Controller:
 
             if p1 and p2:
                 Q, R, pgcd = perform_calculation(p1, p2)
+
+                self.__EntryFrame.history.append(
+                    {
+                        'poly1': p1,
+                        'poly2': p2,
+                        'pgcd': pgcd 
+                    }
+                )
+
                 return Q, R, pgcd
             else:
                 return None, None, None
@@ -115,6 +124,8 @@ class Controller:
         self.__ResultFrame.config_rest(R)
         self.__ResultFrame.config_pgcd(pgcd)
         self.__ResultFrame.Show()
+
+        
 
     # ===================== UI Setup & Main Loop =====================
     def create(self):
@@ -166,7 +177,7 @@ class Controller:
         
         #toolbar buttons
         self.__ToolbarFrame.set_settings_command(lambda: settings_button_command(self.__App, Color.FrameColor.SettingsColor.TITLE, SettingsTitleCTkFont()))
-        self.__ToolbarFrame.set_history_command(lambda: history_button_command(self.__App))
+        self.__ToolbarFrame.set_history_command(lambda: history_button_command(self.__App, self.__EntryFrame.history, (self.__entry1, self.__entry2), self.__ResultFrame))
 
     # ===================== Images & Icons =====================
     def apply_images(self):

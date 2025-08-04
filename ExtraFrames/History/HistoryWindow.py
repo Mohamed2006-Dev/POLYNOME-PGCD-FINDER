@@ -8,3 +8,13 @@ class HistoryWindow(ctk.CTkToplevel):
         self.lift()         # Bring window to front
         self.focus_set()    # Focus on this window
         self.grab_set()     # Make this window modal
+
+        self.empty_window = ctk.CTkLabel(
+            self,
+            text="No operations have been performed yet.\nYour operation history will appear here.",
+            font=('Sergio UI', 35)
+        )
+
+    def show_empty(self):
+        self.empty_window.pack(expand=True)
+    
