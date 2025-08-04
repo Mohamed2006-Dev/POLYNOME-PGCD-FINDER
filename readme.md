@@ -15,6 +15,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
 - **Theme Support:** Switch between dark, light, and system appearance modes 🌗.
 - **Clear Results Display:** Shows quotient, remainder, and GCD in a readable format 📝.
 - **Improved Floating-Point Handling:** Floating-point coefficients are now correctly parsed and displayed.
+- **History Feature:** View, restore, copy, and clear your calculation history 🕑.
 
 ## What's New & Updates 🆕
 
@@ -38,6 +39,14 @@ PGCD Finder is a Python application designed to help users calculate the Greates
 - **Instructions Update:**  
   - The instructions now include a warning about disabling auto-correction:  
     ⚠️ If auto-correction is disabled, you must enter polynomials in the correct format or errors may occur.
+
+- **History Feature:**  
+  - A new **History** window is available from the toolbar.
+  - **View all previous calculations** with polynomials and their GCD.
+  - **Restore** any previous calculation by clicking the "Show" button.
+  - **Copy** the result to the clipboard with one click.
+  - **Clear** the entire history using the delete button.
+  - If no operations have been performed, a message is displayed.
 
 ## Usage 🛠️
 
@@ -65,6 +74,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
    - View the quotient, remainder, and GCD in the results section.
    - Use the "Tips" and "Example" buttons for guidance.
    - **Auto-Correction:** You can enable or disable auto-correction in the settings window. If disabled, make sure to enter polynomials in the correct format to avoid errors.
+   - **History:** Access the history window from the toolbar to view, restore, copy, or clear your previous calculations.
 
 ## Dependencies 📦
 
