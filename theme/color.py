@@ -87,8 +87,8 @@ class Color:
 
         class HistoryColor:
             TEXT=('#DB8524', '#DB8524')
-            BORDER=("#5F5D5D", "#BEBABA")
-            BUTTON=("#8B8A8A", "#383838")
+            BORDER=("#7E7C7C", "#BEBABA")
+            BUTTON=("#CAC8C8", "#383838")
 
     class Buttons:
         """
@@ -136,4 +136,4 @@ class Color:
 
         class HistoryButton:
             PRIMARY='transparent'
-            HOVER=("#585757", "#585757")
+            HOVER=("#CCC7C7", "#585757")
