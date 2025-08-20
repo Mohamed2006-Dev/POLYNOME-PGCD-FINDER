@@ -198,7 +198,7 @@ class Controller:
         )
         self.__KeyboardFrame.configure_btns(Assets.convert(("exposant(light)", "exposant"), (30, 30)))
 
-        self.__ToolbarFrame.load_icons(Assets.convert('settings', (20, 20)), Assets.convert('history', (20, 20)))
+        self.__ToolbarFrame.load_icons(Assets.convert('settings', (20, 20)), Assets.convert(('history(light)', 'history'), (20, 20)))
 
     # ===================== Fonts =====================
     def load_fonts(self):
