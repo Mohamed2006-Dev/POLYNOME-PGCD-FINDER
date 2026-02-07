@@ -1,10 +1,10 @@
-# PGCD Finder Project 🧮
+# PGCD Finder Project 
 
-## Overview ✨
+## Overview 
 
-PGCD Finder is a Python application designed to help users calculate the Greatest Common Divisor (GCD, also known as PGCD in French) of two polynomials. The tool is user-friendly, visually appealing, and suitable for students, teachers, and anyone working with polynomial mathematics.
+PGCD Finder is a Python application designed to help users calculate the Greatest Common Divisor (GCD) of two polynomials. The tool is user-friendly, visually appealing, and suitable for students, teachers, and anyone working with polynomial mathematics.
 
-## Features 🚀
+## Features 
 
 - **Polynomial GCD Calculation:** Quickly compute the GCD of two polynomials.
 - **User-Friendly Interface:** Modern and intuitive GUI built with [customtkinter](https://github.com/TomSchimansky/CustomTkinter).
@@ -26,7 +26,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
   - All settings changes are applied live to the application.
 
 - **Input Validation System Improvements:**  
-  - Supports input like `X3` which is auto-converted to `X**3` and then to `X³` (superscript).
+  - Supports input like `X3` which is auto-converted to `X³` (superscript).
   - Improved handling and formatting of floating-point coefficients (e.g., `2.500` becomes `2.5`, `3.00` becomes `3`).
   - You can disable auto-correction for manual input; if disabled, polynomials must be entered in the correct format.
 
@@ -34,19 +34,13 @@ PGCD Finder is a Python application designed to help users calculate the Greates
   - Tips and instructions are now visually separated:
     - **Authorized actions** are shown with green color and a ✅ icon.
     - **Warnings and restrictions** are shown with yellow/orange color and a ⚠️ icon.
-  - Instructions are clearer and reflect the latest input and settings features, including auto-correction.
-
-- **Instructions Update:**  
-  - The instructions now include a warning about disabling auto-correction:  
-    ⚠️ If auto-correction is disabled, you must enter polynomials in the correct format or errors may occur.
-
+  
 - **History Feature:**  
   - A new **History** window is available from the toolbar.
   - **View all previous calculations** with polynomials and their GCD.
   - **Restore** any previous calculation by clicking the "Show" button.
   - **Copy** the result to the clipboard with one click.
   - **Clear** the entire history using the delete button.
-  - If no operations have been performed, a message is displayed.
 
 ## Usage 🛠️
 
@@ -93,11 +87,7 @@ PGCD Finder is a Python application designed to help users calculate the Greates
 - `config/assets.py` - Image asset loader.
 - `res/` - Image resources.
 
-## License 📄
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements 🙌
+## Acknowledgements
 
 - Built with [customtkinter](https://github.com/TomSchimansky/CustomTkinter) for a modern Python GUI.
 - Uses [sympy](https://www.sympy.org/) for symbolic mathematics.
@@ -105,3 +95,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ---
 
 Enjoy using PGCD Finder! If you have suggestions or find bugs, feel free to open an issue or contribute. 😊
+
